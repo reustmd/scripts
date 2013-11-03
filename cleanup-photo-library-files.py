@@ -23,11 +23,11 @@ def is_root_year_directory(directory_name):
     return directory_name.isdigit() and (1900 < int(directory_name) < 2100)
 
 
-def is_photo_file(file_name):
+def is_photo_or_video_file(file_name):
 
     file_name_lowered = file_name.lower()
 
-    for file_extension in [".png", ".gift", ".jpg", ".jpeg", ".tiff", ".bmp"]:
+    for file_extension in [".png", ".gift", ".jpg", ".jpeg", ".tiff", ".bmp", ".mov", ".avi", ".mpg", ".mpeg"]:
         if file_extension in file_name_lowered:
             return True
 
@@ -127,11 +127,12 @@ def fill_empty_date_taken_exif_with_estimate(full_file_path):
 
 
 root_directory = "/Users/reustmd/Google Drive/Photos"
-#print_date_taken_exif_contradicts_elder_year_folder
-file_cleanup_strategies = [ensure_lower_case_file_name, fill_empty_date_taken_exif_with_estimate]
+#file_cleanup_strategies = [ensure_lower_case_file_name, fill_empty_date_taken_exif_with_estimate, print_date_taken_exif_contradicts_elder_year_folder]
+file_cleanup_strategies = [ensure_lower_case_file_name]
+
 
 for directory_path, _, file_names in os.walk(root_directory):
-    photo_file_names = [file_name for file_name in file_names if is_photo_file(file_name)]
+    photo_file_names = [file_name for file_name in file_names if is_photo_or_video_file(file_name)]
 
     for file_name in photo_file_names:
         absolute_path = os.path.abspath(os.path.join(directory_path, file_name))
